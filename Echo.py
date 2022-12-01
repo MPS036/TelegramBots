@@ -1,5 +1,5 @@
 import telebot
-bot = telebot.TeleBot('5816106402:AAHU7vrm-mv_gP8BM9Unlr5bqvx5EOOqx84')
+bot = telebot.TeleBot('token')
 @bot.message_handler(commands = ["start"])
 def start(m, res = False):
     bot.send_message(m.chat.id, 'I am here, type something')
