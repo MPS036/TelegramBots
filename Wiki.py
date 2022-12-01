@@ -1,7 +1,7 @@
 import telebot
 import wikipedia
 import re
-bot = telebot.TeleBot('5916838237:AAH1WMIZkygJwirMCyWJ5KZj95av2cjiVKE')
+bot = telebot.TeleBot('token')
 wikipedia.set_lang("de")
 def getwiki(s):
     try:
