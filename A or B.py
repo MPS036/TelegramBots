@@ -1,34 +1,45 @@
-import telebot
+import os
 import random
+import telebot
 from telebot import types
 
-#Let's look at an example on a joke and a fact
+with open("data/jokes.txt", encoding="utf-8") as f:
+    jokes = f.read().splitlines()
 
-f = open('path/jokes.txt', 'r', encoding = 'UTF-8')
-facts = f.read().split('\n')
-f.close
+with open("data/facts.txt", encoding="utf-8") as f:
+    facts = f.read().splitlines()
 
-f = open('path/facts.txt', 'r', encoding = 'UTF-8')
-facts = f.read().split('\n')
-f.close
+token = os.getenv("BOT_TOKEN")
+if not token:
+    raise RuntimeError("BOT_TOKEN is not set. Create .env or export BOT_TOKEN environment variable.")
 
-bot = telebot.TeleBot('token/api key from telegram')
+bot = telebot.TeleBot(token)
 
-@bot.message_handler(commands = ["start"])
-def start(m, res = False):
-    markup=types.ReplyKeyboardMarkup(resize_keyboard=True)
-        item1=types.KeyboardButton("Joke")
-        item2=types.KeyboardButton("Fact")
-        markup.add(item1)
-        markup.add(item2)
-        bot.send_message(m.chat.id, 'Press: \nJoke to get an intersting Joke\nFact to get a funny Fact\n ',  reply_markup=markup)
+@bot.message_handler(commands=["start"])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = types.KeyboardButton("Joke")
+    item2 = types.KeyboardButton("Fact")
+    markup.add(item1, item2)
 
-@bot.message_handler(content_types = ["text"])
+    bot.send_message(
+        message.chat.id,
+        "Press:\nJoke — to get an interesting joke\nFact — to get a funny fact",
+        reply_markup=markup,
+    )
+
+@bot.message_handler(content_types=["text"])
 def handle_text(message):
-    if message.text.strip() == 'Joke':
-        answer = random.choice()
-    elif message.text.strip() == 'Fact':
-        answer = random.choice()
+    text = message.text.strip().lower()
+
+    if text == "joke":
+        answer = random.choice(jokes) if jokes else "Jokes list is empty."
+    elif text == "fact":
+        answer = random.choice(facts) if facts else "Facts list is empty."
+    else:
+        answer = "Please use the buttons: Joke / Fact 🙂"
+
     bot.send_message(message.chat.id, answer)
 
-bot.polling(none_stop = True, interval = 0)
+if __name__ == "__main__":
+    bot.infinity_polling()
