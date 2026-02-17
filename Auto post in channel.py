@@ -1,15 +1,37 @@
-import telebot
+import os
 import time
+import telebot
 
-bot = telebot.TeleBot('token')
-CHANNEL_NAME = '@channel'
+INTERVAL = 300  # seconds
+CHANNEL_NAME = "@channel"
 
-f = open('path/jokes.txt', 'r', encoding='UTF-8')
-jokes = f.read().split('\n')
-f.close()
+token = os.getenv("BOT_TOKEN")
+if not token:
+    raise RuntimeError("BOT_TOKEN is not set.")
 
-for joke in jokes:
-    bot.send_message(CHANNEL_NAME, joke)
-    time.sleep(300)
+bot = telebot.TeleBot(token)
 
-bot.send_message(CHANNEL_NAME, "Nothing to send")
+def load_jokes():
+    with open("data/jokes.txt", encoding="utf-8") as f:
+        return [line for line in f.read().splitlines() if line.strip()]
+
+def autopost():
+    jokes = load_jokes()
+
+    if not jokes:
+        print("No jokes found.")
+        return
+
+    print(f"Starting autopost. {len(jokes)} messages loaded.")
+
+    for joke in jokes:
+        try:
+            bot.send_message(CHANNEL_NAME, joke)
+            print("Sent:", joke[:30])
+            time.sleep(INTERVAL)
+        except Exception as e:
+            print("Error sending message:", e)
+            time.sleep(10)
+
+if __name__ == "__main__":
+    autopost()
