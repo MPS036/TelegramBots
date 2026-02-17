@@ -1,0 +1,5 @@
+pytelegrambotapi
+wikipedia
+python-dotenv
+fuzzywuzzy
+python-Levenshtein
