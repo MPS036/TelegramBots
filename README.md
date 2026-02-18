@@ -7,7 +7,8 @@ This repository contains several small Telegram bots created to explore:
 (iii) Automation;
 (iv) Basic fuzzy matching (rule-based chatbot).
 
-Bots Included
+Bots Included:
+
 1️⃣ Echo Bot:
 Repeats any text message sent by the user.
 
