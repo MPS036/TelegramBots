@@ -34,14 +34,18 @@ It compares user input with predefined phrases and returns the closest match.
 
 🛠 Data Configuration
 
-For A_or_B Bot:
+(i) For A_or_B Bot:
+
 Create /data folder and create files data/jokes.txt and data/facts.txt with any content you like.
 Of course you could change facts or jokes or both to something else, but do not forget to update the bot code.
 
-For Chat Bot:
-Create bot_data/chat.txt with format
+(ii) For Chat Bot:
+
+Create bot_data/chat.txt with format:
+```
 u: "message" for user
 b: "reply" for bot
+```
 The bot will match user input to the closes question using fuzzy matching
 
 🛠 Requirements:
