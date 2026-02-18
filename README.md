@@ -45,6 +45,7 @@ b: "reply" for bot
 The bot will match user input to the closes question using fuzzy matching
 
 🛠 Requirements:
+
 (i) Python 3.9+;
 (ii) pytelegrambotapi;
 (iii) wikipedia;
