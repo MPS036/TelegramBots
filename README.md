@@ -1,4 +1,4 @@
-Telegram Bots
+🤖 Telegram Bots
 
 A collection of educational Telegram bots built using pytelegrambotapi.
 This repository contains several small Telegram bots created to explore:
@@ -31,7 +31,7 @@ Automatically posts messages from a text file to a Telegram channel at a fixed i
 Rule-based chatbot using fuzzy string matching.
 It compares user input with predefined phrases and returns the closest match.
 
-Data Configuration
+🛠 Data Configuration
 
 For A_or_B Bot:
 Create /data folder and create files data/jokes.txt and data/facts.txt with any content you like.
@@ -42,3 +42,11 @@ Create bot_data/chat.txt with format
 u: "message" for user
 b: "reply" for bot
 The bot will match user input to the closes question using fuzzy matching
+
+🛠 Requirements:
+(i) Python 3.9+;
+(ii) pytelegrambotapi;
+(iii) wikipedia;
+(iv) fuzzywuzzy;
+(v) python-Levenshtein (optional, for better performance);
+(vi) python-dotenv.
