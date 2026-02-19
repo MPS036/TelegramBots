@@ -1,3 +1,33 @@
+"""
+Rule-Based Telegram Chat Bot (Fuzzy Matching)
+
+This bot replies using a predefined Q/A dataset stored in a text file.
+It uses fuzzy string matching to find the closest known question and returns
+the corresponding answer.
+
+How it works:
+(i) The knowledge base is loaded from: bot_data/chat.txt
+(ii) Format:
+    u: hello
+    b: hi there
+
+    u: how are you
+    b: I'm fine!
+
+    etc.
+(iii) For each incoming message the bot computes similarity score against all
+  stored questions and returns the best match if the score >= THRESHOLD.
+
+Requirements:
+(i) Environment variable: BOT_TOKEN
+(ii) Dependencies: pytelegrambotapi, fuzzywuzzy (+ python-Levenshtein optional)
+(iii) Data file: bot_data/chat.txt
+
+Notes:
+(i) This is NOT an AI chatbot. It is a rule-based approach with text similarity.
+(ii) Logs are saved to bot_data/<chat_id>_log.txt
+"""
+
 import os
 from dataclasses import dataclass
 import telebot
@@ -13,20 +43,34 @@ if not token:
 
 bot = telebot.TeleBot(token)
 
-
 @dataclass
 class QA:
+    ass QA:
+    """
+    Represents a single Question/Answer pair.
+
+    Attributes:
+        question: Normalized user question (lowercase).
+        answer: Bot reply.
+    """
     question: str
     answer: str
 
-
 def load_qa(path: str) -> list[QA]:
     """
-    Expects chat.txt format like:
-    u: hello
-    b: hi
-    u: how are you
-    b: fine
+    Load Q/A pairs from a text file.
+
+    Expected format (repeated blocks):
+        u: <user message>
+        b: <bot reply>
+
+    Empty lines are allowed.
+
+    Args:
+        path: Path to the dataset file.
+
+    Returns:
+        List of QA pairs. Returns an empty list if file does not exist.
     """
     if not os.path.exists(path):
         return []
@@ -51,11 +95,18 @@ def load_qa(path: str) -> list[QA]:
 
     return qa_list
 
-
 QA_DATA = load_qa(DATA_PATH)
 
-
 def get_answer(text: str) -> str:
+       """
+    Generate a reply to user input using fuzzy matching.
+
+    Args:
+        text: Raw user message text.
+
+    Returns:
+        Bot reply string.
+    """
     text = text.lower().strip()
     if not text:
         return "Say something 🙂"
@@ -77,8 +128,15 @@ def get_answer(text: str) -> str:
 
     return "I don't know how to answer that yet 😅"
 
-
 def log_dialog(chat_id: int, user_text: str, bot_text: str) -> None:
+    """
+    Append a conversation entry to a per-chat log file.
+
+    Args:
+        chat_id: Telegram chat id.
+        user_text: Message received from user.
+        bot_text: Bot reply.
+    """
     os.makedirs(LOG_DIR, exist_ok=True)
     log_path = os.path.join(LOG_DIR, f"{chat_id}_log.txt")
     with open(log_path, "a", encoding="utf-8") as f:
@@ -88,11 +146,18 @@ def log_dialog(chat_id: int, user_text: str, bot_text: str) -> None:
 
 @bot.message_handler(commands=["start"])
 def start(message):
+     start(message) -> None:
+    """
+    Start command handler.
+    """
     bot.send_message(message.chat.id, "I am here — say hello to me!")
 
 
 @bot.message_handler(content_types=["text"])
 def handle_text(message):
+     """
+    Main text handler: creates a reply, logs the dialog, and sends the reply.
+    """
     reply = get_answer(message.text)
     log_dialog(message.chat.id, message.text, reply)
     bot.send_message(message.chat.id, reply)
