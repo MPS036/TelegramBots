@@ -40,7 +40,6 @@ def load_messages(path: str = "data/jokes.txt") -> list[str]:
     with open(path, encoding="utf-8") as f:
         return [line.strip() for line in f.read().splitlines() if line.strip()]
 
-
 def autopost() -> None:
      """
     Send messages sequentially to the Telegram channel
