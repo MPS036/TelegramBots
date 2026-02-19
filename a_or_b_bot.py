@@ -1,5 +1,5 @@
 """
-A-or-B Telegram Bot (Facts / Jokes) {or whatever you have}
+A-or-B Telegram Bot (Facts / Jokes) {or whatever you want}
 
 A simple Telegram bot that shows two buttons (e.g., "Joke" and "Fact").
 When a user presses a button, the bot sends a random line from a
