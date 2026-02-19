@@ -1,3 +1,20 @@
+"""
+Wikipedia Preview Telegram Bot
+
+This bot returns a short preview of a Wikipedia article
+based on a user query.
+
+Features:
+(i) Automatic language selection via WIKI_LANG environment variable
+(ii) Cleans Wikipedia text (removes brackets/templates)
+(iii) Handles disambiguation and missing pages
+(iv) Respects Telegram message length limit (4096 chars)
+
+Requirements:
+(i) Environment variable: BOT_TOKEN,  WIKI_LANG  (optional, default: "de")
+(ii) Dependencies: pytelegrambotapi, wikipedia
+"""
+
 import os
 import re
 import telebot
@@ -16,6 +33,18 @@ wikipedia.set_lang(DEFAULT_LANG)
 
 
 def clean_text(text: str) -> str:
+    """
+    Clean Wikipedia content by removing:
+    - Parentheses content
+    - Curly brace templates
+    - Excess whitespace
+
+    Args:
+        text: Raw Wikipedia text.
+
+    Returns:
+        Cleaned text string.
+    """
     # Remove parenthesis/brackets content and curly braces templates
     text = re.sub(r"\([^()]*\)", "", text)
     text = re.sub(r"\{[^{}]*\}", "", text)
@@ -25,6 +54,17 @@ def clean_text(text: str) -> str:
 
 
 def getwiki(query: str, limit_chars: int = 1200) -> str:
+     """
+    Fetch and process a Wikipedia article preview.
+
+    Args:
+        query: User search query.
+        limit_chars: Maximum number of characters to process
+                     before formatting.
+
+    Returns:
+        A cleaned article preview or an error message.
+    """
     q = query.strip()
     if not q:
         return "Type a topic to search 🙂"
@@ -60,29 +100,43 @@ def getwiki(query: str, limit_chars: int = 1200) -> str:
         return result
 
     except DisambiguationError as e:
+         """
+        Raised when a query matches multiple pages.
+        """
         # show a few options
         options = e.options[:8]
         return "Too many results. Try one of these:\n- " + "\n- ".join(options)
 
     except PageError:
+        """
+        Raised when no page matches the query.
+        """
         return "No page found for this query. Try a different keyword."
 
     except WikipediaException:
+        """
+        Raised for general Wikipedia API errors.
+        """
         return "Wikipedia error occurred. Please try again later."
 
     except Exception:
+        """
+        Catch-all fallback to prevent bot crashes.
+        """
         return "Unexpected error. Please try again later."
 
 
 @bot.message_handler(commands=["start", "help"])
-def start(message):
+def start(message) -> None:
+    """
+    Send welcome message and usage instructions.
+    """
     bot.send_message(
         message.chat.id,
         f"Send me a topic and I’ll return a short Wikipedia preview.\n"
         f"Current language: {DEFAULT_LANG}\n"
         f"Tip: you can set WIKI_LANG in .env (e.g., de/en/ru).",
     )
-
 
 @bot.message_handler(content_types=["text"])
 def handle_text(message):
