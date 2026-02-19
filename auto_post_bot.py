@@ -5,9 +5,9 @@ A simple automation script that sends messages from a text file
 to a specified Telegram channel at fixed time intervals.
 
 Requirements:
-- Environment variable: BOT_TOKEN
-- data/jokes.txt (one message per line) {or whatever you want}
-- Bot must be added as admin to the target channel
+(i) Environment variable: BOT_TOKEN
+(ii) data/jokes.txt (one message per line) {or whatever you want}
+(iii) Bot must be added as admin to the target channel
 """
 
 import os
