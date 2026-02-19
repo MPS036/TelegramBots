@@ -6,8 +6,8 @@ When a user presses a button, the bot sends a random line from a
 corresponding text file.
 
 Requirements:
-- Environment variable: BOT_TOKEN
-- Data files:
+(i) Environment variable: BOT_TOKEN
+(ii) Data files:
   - data/jokes.txt (one joke per line)
   - data/facts.txt (one fact per line)
 """
