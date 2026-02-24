@@ -15,11 +15,6 @@ Repeats any text message sent by the user.
 2️⃣ Wiki Bot:
 Returns a short preview (first ~1000 characters) of a Wikipedia article.
 
-Features:
-- Configurable language (via environment variable);
-- Basic text cleaning;
-- Error handling for missing or ambiguous pages.
-
 3️⃣ A or B Bot (Facts / Jokes):
 Displays custom keyboard buttons (e.g., Joke / Fact).
 When pressed, the bot sends a random line from a corresponding text file.
