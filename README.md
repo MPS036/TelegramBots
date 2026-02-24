@@ -1,13 +1,13 @@
-🤖 Telegram Bots
+# 🤖 Telegram Bots
 
 A collection of educational Telegram bots built using pytelegrambotapi.
 This repository contains several small Telegram bots created to explore:
-(i) Telegram Bot API;
-(ii) Text processing;
-(iii) Automation;
-(iv) Basic fuzzy matching (rule-based chatbot).
+- Telegram Bot API;
+- Text processing;
+- Automation;
+- Basic fuzzy matching (rule-based chatbot).
 
-Bots Included:
+## Bots Included:
 
 1️⃣ Echo Bot:
 Repeats any text message sent by the user.
@@ -16,9 +16,9 @@ Repeats any text message sent by the user.
 Returns a short preview (first ~1000 characters) of a Wikipedia article.
 
 Features:
-(i) Configurable language (via environment variable);
-(ii) Basic text cleaning;
-(iii) Error handling for missing or ambiguous pages.
+- Configurable language (via environment variable);
+- Basic text cleaning;
+- Error handling for missing or ambiguous pages.
 
 3️⃣ A or B Bot (Facts / Jokes):
 Displays custom keyboard buttons (e.g., Joke / Fact).
@@ -32,14 +32,14 @@ Automatically posts messages from a text file to a Telegram channel at a fixed i
 Rule-based chatbot using fuzzy string matching.
 It compares user input with predefined phrases and returns the closest match.
 
-🛠 Data Configuration
+## 🛠 Data Configuration:
 
-(i) For A_or_B Bot:
+- For A_or_B Bot:
 
 Create /data folder and create files data/jokes.txt and data/facts.txt with any content you like.
 Of course you could change facts or jokes or both to something else, but do not forget to update the bot code.
 
-(ii) For Chat Bot:
+- For Chat Bot:
 
 Create bot_data/chat.txt with format:
 ```
@@ -48,11 +48,11 @@ b: "reply" for bot
 ```
 The bot will match user input to the closes question using fuzzy matching
 
-🛠 Requirements:
+## 🛠 Requirements:
 
-(i) Python 3.9+;
-(ii) pytelegrambotapi;
-(iii) wikipedia;
-(iv) fuzzywuzzy;
-(v) python-Levenshtein (optional, for better performance);
-(vi) python-dotenv.
+- Python 3.9+;
+- pytelegrambotapi;
+- wikipedia;
+- fuzzywuzzy;
+- python-Levenshtein (optional, for better performance);
+- python-dotenv.
